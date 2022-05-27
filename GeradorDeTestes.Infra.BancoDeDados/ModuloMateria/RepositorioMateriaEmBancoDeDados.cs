@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using GeradorTestes.Dominio.ModuloDisciplina;
 using GeradorTestes.Dominio.ModuloMateria;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,17 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
         public const string enderecoBanco = "Data Source=(LocalDB)\\MSSqlLocalDB;" +
             "Initial Catalog=GeradorDeTestesDB;" +
             "Integrated Security=True;Pooling=False";
+
+        private const string sqlSelecionarTodos = @"SELECT
+                MT.NUMERO,
+                MT.NOME,
+                MT.SERIE,
+                MT.DISCIPLINA_NUMERO,
+                D.NOME
+                FROM
+                TbMateria AS MT INNER JOIN 
+                TbDisciplina AS D ON
+                MT.Disciplina_Numero = D.Numero";
 
         private const string sqlInserir =
             @"INSERT INTO [TBMATERIA]
@@ -43,15 +55,6 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 		        WHERE
 			        [NUMERO] = @NUMERO";
 
-        private const string sqlSelecionarTodos =
-            @"SELECT 
-		            [NUMERO], 
-		            [NOME],
-                    [DISCIPLINA],
-                     [SERIE]
-	            FROM 
-		            [TBMATERIA]";
-
         private const string sqlSelecionarPorNumero =
             @"SELECT 
 		            [NUMERO], 
@@ -62,6 +65,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 		            [TBMATERIA]
 		        WHERE
                     [NUMERO] = @NUMERO";
+
 
         public ValidationResult Editar(Materia registro)
         {
@@ -104,7 +108,47 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 
         public List<Materia> SelecionarTodos()
         {
-            throw new NotImplementedException();
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoSelecao = new SqlCommand(sqlSelecionarTodos, conexaoComBanco);
+
+            conexaoComBanco.Open();
+
+            SqlDataReader leitorMateria = comandoSelecao.ExecuteReader();
+
+            List<Materia> materias = new List<Materia>();
+
+            while (leitorMateria.Read())
+            {
+                Materia materia = ConverterParaMateria(leitorMateria);
+                materias.Add(materia);
+            }
+
+            conexaoComBanco.Close();
+
+            return materias;
+        }
+
+        private Materia ConverterParaMateria(SqlDataReader leitorMateria)
+        {
+            int numero = Convert.ToInt32(leitorMateria["NUMERO"]);
+            string nome = Convert.ToString(leitorMateria["NOME"]);
+            string serie = Convert.ToString(leitorMateria["SERIE"]);
+            int numeroDisciplina = Convert.ToInt32(leitorMateria["DISCIPLINA_NUMERO"]);
+            string nomeDisciplina = Convert.ToString(leitorMateria["DISCIPLINA_NOME"]);
+
+            var materia = new Materia
+            {
+                Numero = numero,
+                Nome = nome,
+                Serie = serie,
+                Disciplina = new Disciplina { 
+                    Numero = numeroDisciplina, 
+                    Nome = nomeDisciplina,
+                }
+            };
+
+            return materia;
         }
 
         private void ConfigurarParametrosMateria(Materia novaMateria, SqlCommand cmdInserir)

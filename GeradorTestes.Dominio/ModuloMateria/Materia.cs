@@ -37,5 +37,10 @@ namespace GeradorTestes.Dominio.ModuloMateria
         {
             return $"Número: {Numero} - Nome: {Nome} - Disciplina: {Disciplina.Nome} - Série: {Serie}";
         }
+
+        public static implicit operator Materia(Materia v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
