@@ -21,7 +21,8 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
                 MT.NOME,
                 MT.SERIE,
                 MT.DISCIPLINA_NUMERO,
-                D.NOME
+                D.NUMERO AS DISCIPLINA_NUMERO,
+                D.NOME AS DISCIPLINA_NOME
                 FROM
                 TbMateria AS MT INNER JOIN 
                 TbDisciplina AS D ON
