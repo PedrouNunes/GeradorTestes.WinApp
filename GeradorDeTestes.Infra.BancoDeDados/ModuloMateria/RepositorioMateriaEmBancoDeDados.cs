@@ -32,15 +32,15 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             @"INSERT INTO [TBMATERIA]
             (
                 [NOME]
-                [DISCIPLINA]
+                [DISCIPLINA_NUMERO]
                 [SERIE]
             )    
              VALUES
             (
                 @NOME
-                @DISCIPLINA
+                @DISCIPLINA_Numero
                 @SERIE
-            );SELECT SCOPE_IDENTITY();";
+            );SELECT SCOPE_IDENTITY(); SELECT SCOPE_IDENTITY";
 
         private const string sqlEditar =
             @"UPDATE [TBMATERIA]	
@@ -67,6 +67,22 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 		        WHERE
                     [NUMERO] = @NUMERO";
 
+        public ValidationResult Inserir(Materia materia)
+        {
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoInsercao = new SqlCommand(sqlInserir, conexaoComBanco);
+
+            comandoInsercao.Parameters.AddWithValue("DISCIPLINA_NUMERO", materia.Numero);
+
+            conexaoComBanco.Open();
+            var id = comandoInsercao.ExecuteScalar();
+            materia.Numero = Convert.ToInt32(id);
+            conexaoComBanco.Close();
+
+            return new ValidationResult();
+        }
+
 
         public ValidationResult Editar(Materia registro)
         {
@@ -76,30 +92,6 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
         public ValidationResult Excluir(Materia registro)
         {
             throw new NotImplementedException();
-        }
-
-        public ValidationResult Inserir(Materia novaMateria)
-        {
-            var validador = new ValidadorMateria();
-            var resultadoValidacao = validador.Validate(novaMateria);
-            if (resultadoValidacao.IsValid == false)
-            {
-                return resultadoValidacao;
-            }
-            else
-            {
-                SqlConnection conexao = new SqlConnection(enderecoBanco);
-                SqlCommand cmdInserir = new SqlCommand(sqlInserir, conexao);
-
-                ConfigurarParametrosMateria(novaMateria, cmdInserir);
-                conexao.Open();
-
-                var numero = cmdInserir.ExecuteScalar();
-
-                novaMateria.Numero = Convert.ToInt32(numero);
-                conexao.Close();
-                return resultadoValidacao;
-            }
         }
 
         public Materia SelecionarPorNumero(int numero)
