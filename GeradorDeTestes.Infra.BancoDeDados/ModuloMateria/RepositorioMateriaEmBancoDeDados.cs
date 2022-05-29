@@ -46,7 +46,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             @"UPDATE [TBMATERIA]	
 		        SET
 			        [NOME] = @NOME
-                    [DISCIPLINA] = @DISCIPLINA
+                    [DISCIPLINA_NUMERO] = @DISCIPLINA
                     [SERIE] = @SERIE
 		        WHERE
 			        [NUMERO] = @NUMERO";
@@ -60,7 +60,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             @"SELECT 
 		            [NUMERO], 
 		            [NOME],
-                    [DISCIPLINA],
+                    [DISCIPLINA_NUMERO],
                     [SERIE]
 	            FROM 
 		            [TBMATERIA]
