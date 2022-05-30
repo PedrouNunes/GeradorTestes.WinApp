@@ -54,6 +54,30 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloDisciplina
 
         #endregion
 
+        public ValidationResult Inserir(Disciplina novaDisciplina)
+        {
+            var validador = new ValidadorDisciplina();
+            var resultadoValidacao = validador.Validate(novaDisciplina);
+            if (resultadoValidacao.IsValid == false)
+            {
+                return resultadoValidacao;
+            }
+            else
+            {
+                SqlConnection conexao = new SqlConnection(enderecoBanco);
+                SqlCommand cmdInserir = new SqlCommand(sqlInserir, conexao);
+
+                ConfigurarParametrosDisciplina(novaDisciplina, cmdInserir);
+                conexao.Open();
+
+                var numero = cmdInserir.ExecuteScalar();
+
+                novaDisciplina.Numero = Convert.ToInt32(numero);
+                conexao.Close();
+                return resultadoValidacao;
+            }
+        }
+
         public ValidationResult Editar(Disciplina disciplina)
         {
             var validador = new ValidadorDisciplina();
@@ -152,30 +176,6 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloDisciplina
             };
 
             return disciplina;
-        }
-
-        public ValidationResult Inserir(Disciplina novaDisciplina)
-        {
-            var validador = new ValidadorDisciplina();
-            var resultadoValidacao = validador.Validate(novaDisciplina);
-            if (resultadoValidacao.IsValid == false)
-            {
-                return resultadoValidacao;
-            }
-            else
-            {
-                SqlConnection conexao = new SqlConnection(enderecoBanco);
-                SqlCommand cmdInserir = new SqlCommand(sqlInserir, conexao);
-
-                ConfigurarParametrosDisciplina(novaDisciplina, cmdInserir);
-                conexao.Open();
-
-                var numero = cmdInserir.ExecuteScalar();
-
-                novaDisciplina.Numero = Convert.ToInt32(numero);
-                conexao.Close();
-                return resultadoValidacao;
-            }
         }
 
         private static void ConfigurarParametrosDisciplina(Disciplina novaDisciplina, SqlCommand cmdInserir)
