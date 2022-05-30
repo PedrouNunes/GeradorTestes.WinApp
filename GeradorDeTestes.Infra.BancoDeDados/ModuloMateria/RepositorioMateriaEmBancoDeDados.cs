@@ -98,7 +98,22 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 
         public Materia SelecionarPorNumero(int numero)
         {
-            throw new NotImplementedException();
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoSelecao = new SqlCommand(sqlSelecionarPorNumero, conexaoComBanco);
+
+            comandoSelecao.Parameters.AddWithValue("NUMERO", numero);
+
+            conexaoComBanco.Open();
+            SqlDataReader leitorDisciplina = comandoSelecao.ExecuteReader();
+
+            Materia materia = null;
+            if (leitorDisciplina.Read())
+                materia = ConverterParaMateria(leitorDisciplina);
+
+            conexaoComBanco.Close();
+
+            return materia;
         }
 
         public List<Materia> SelecionarTodos()
