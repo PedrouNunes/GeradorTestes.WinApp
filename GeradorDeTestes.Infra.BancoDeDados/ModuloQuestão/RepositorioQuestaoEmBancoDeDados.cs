@@ -10,7 +10,9 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
 {
     internal class RepositorioQuestaoEmBancoDeDados : IRepositorioQuestao
     {
-
+        public const string enderecoBanco = "Data Source=(LocalDB)\\MSSqlLocalDB;" +
+            "Initial Catalog=GeradorDeTestesDB;" +
+            "Integrated Security=True;Pooling=False";
 
         public ValidationResult Editar(Questao registro)
         {
