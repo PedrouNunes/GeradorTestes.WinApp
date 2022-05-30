@@ -16,6 +16,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             "Initial Catalog=GeradorDeTestesDB;" +
             "Integrated Security=True;Pooling=False";
 
+        #region Declaração de strings para ação
         private const string sqlSelecionarTodos = @"SELECT
                 MT.NUMERO,
                 MT.NOME,
@@ -68,6 +69,8 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
                     MTN.UMERO = D.DISCIPLINA_NUMERO
 		        WHERE
                     [NUMERO] = @NUMERO";
+        #endregion
+
 
         public ValidationResult Inserir(Materia materia)
         {
@@ -86,14 +89,31 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
         }
 
 
-        public ValidationResult Editar(Materia registro)
+        public ValidationResult Editar(Materia materia)
         {
-            throw new NotImplementedException();
+            var validador = new ValidadorDisciplina();
+
+            var resultadoValidacao = validador.Validate(materia);
+
+            if (resultadoValidacao.IsValid == false)
+                return resultadoValidacao;
+
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoEdicao = new SqlCommand(sqlEditar, conexaoComBanco);
+
+            ConfigurarParametrosMateria(materia, comandoEdicao);
+
+            conexaoComBanco.Open();
+            comandoEdicao.ExecuteScalar();
+            conexaoComBanco.Close();
+
+            return resultadoValidacao;
         }
 
         public ValidationResult Excluir(Materia registro)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Materia SelecionarPorNumero(int numero)

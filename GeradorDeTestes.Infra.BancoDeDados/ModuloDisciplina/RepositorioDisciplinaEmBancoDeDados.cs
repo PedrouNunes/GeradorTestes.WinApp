@@ -13,6 +13,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloDisciplina
     {
         public const string enderecoBanco = "Data Source=(LocalDB)\\MSSqlLocalDB;Initial Catalog=GeradorDeTestesDB;Integrated Security=True;Pooling=False";
 
+        #region Declaração de strings para ação
         private const string sqlInserir =
             @"INSERT INTO [TBDISCIPLINA]
             (
@@ -51,6 +52,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloDisciplina
 		        WHERE
                     [NUMERO] = @NUMERO";
 
+        #endregion
 
         public ValidationResult Editar(Disciplina disciplina)
         {
