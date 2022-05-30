@@ -39,9 +39,9 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
              VALUES
             (
                 @NOME,
-                @DISCIPLINA_Numero,
+                @DISCIPLINA_NUMERO,
                 @SERIE
-            );SELECT SCOPE_IDENTITY(); SELECT SCOPE_IDENTITY";
+            );SELECT SCOPE_IDENTITY();";
 
         private const string sqlEditar =
             @"UPDATE [TBMATERIA]	
@@ -78,10 +78,12 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 
             SqlCommand comandoInsercao = new SqlCommand(sqlInserir, conexaoComBanco);
 
-            comandoInsercao.Parameters.AddWithValue("DISCIPLINA_NUMERO", materia.Numero);
+            comandoInsercao.Parameters.AddWithValue("NOME", materia.Nome);
+            comandoInsercao.Parameters.AddWithValue("DISCIPLINA_NUMERO", materia.Disciplina.Numero);
+            comandoInsercao.Parameters.AddWithValue("SERIE", materia.Serie);
 
             conexaoComBanco.Open();
-            var id = comandoInsercao.ExecuteNonQuery();
+            var id = comandoInsercao.ExecuteScalar();
             materia.Numero = Convert.ToInt32(id);
             conexaoComBanco.Close();
 

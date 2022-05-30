@@ -62,7 +62,6 @@ namespace GeradorTestes.WinApp.ModuloMateria
             materia.Nome = txtNome.Text;
             materia.Disciplina = (Disciplina)cmbDisciplinas.SelectedItem;
 
-            var resultadoValidacao = GravarRegistro(materia);
 
             if (checkMarcarPrimeiraSerie.Checked)
             {
@@ -75,6 +74,8 @@ namespace GeradorTestes.WinApp.ModuloMateria
                 materia.Serie = "2 Série";
               
             }
+
+            var resultadoValidacao = GravarRegistro(materia);
 
             if (resultadoValidacao.IsValid == false)
             {
@@ -111,7 +112,6 @@ namespace GeradorTestes.WinApp.ModuloMateria
             }
             else
             {
-
                 checkMarcarSegundaSerie.Enabled = false;
             }
         }
@@ -125,10 +125,7 @@ namespace GeradorTestes.WinApp.ModuloMateria
             else
             {
                 checkMarcarPrimeiraSerie.Enabled = false;
-            }
-            
+            } 
         }
-
-      
     }
 }
