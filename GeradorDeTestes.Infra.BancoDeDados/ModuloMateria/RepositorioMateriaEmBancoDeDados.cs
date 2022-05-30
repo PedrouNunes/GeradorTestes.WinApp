@@ -31,9 +31,9 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
         private const string sqlInserir =
             @"INSERT INTO [TBMATERIA]
             (
-                [NOME]
-                [DISCIPLINA_NUMERO]
-                [SERIE]
+                MT.[NOME]
+                D.[DISCIPLINA_NUMERO]
+                MT.[SERIE]
             )    
              VALUES
             (
@@ -45,9 +45,9 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
         private const string sqlEditar =
             @"UPDATE [TBMATERIA]	
 		        SET
-			        [NOME] = @NOME
-                    [DISCIPLINA_NUMERO] = @DISCIPLINA
-                    [SERIE] = @SERIE
+			        MT.[NOME] = @NOME
+                    D.[DISCIPLINA_NUMERO] = @DISCIPLINA
+                    MT.[SERIE] = @SERIE
 		        WHERE
 			        [NUMERO] = @NUMERO";
 
@@ -58,12 +58,14 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 
         private const string sqlSelecionarPorNumero =
             @"SELECT 
-		            [NUMERO], 
-		            [NOME],
-                    [DISCIPLINA_NUMERO],
-                    [SERIE]
+		            MT.[NUMERO], 
+		            MT.[NOME],
+                    D.[DISCIPLINA_NUMERO],
+                    MT.[SERIE]
 	            FROM 
 		            [TBMATERIA]
+                ON
+                    MTN.UMERO = D.DISCIPLINA_NUMERO
 		        WHERE
                     [NUMERO] = @NUMERO";
 
