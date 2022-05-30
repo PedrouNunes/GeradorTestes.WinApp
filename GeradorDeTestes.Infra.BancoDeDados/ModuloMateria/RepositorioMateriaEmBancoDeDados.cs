@@ -81,7 +81,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             comandoInsercao.Parameters.AddWithValue("DISCIPLINA_NUMERO", materia.Numero);
 
             conexaoComBanco.Open();
-            var id = comandoInsercao.ExecuteScalar();
+            var id = comandoInsercao.ExecuteNonQuery();
             materia.Numero = Convert.ToInt32(id);
             conexaoComBanco.Close();
 
