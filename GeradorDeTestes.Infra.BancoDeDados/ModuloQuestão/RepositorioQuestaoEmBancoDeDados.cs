@@ -27,7 +27,19 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
                 TbMateria AS TM ON
                 TQ.MATERIA_MATERIA = MT.Numero";
 
-
+        private const string sqlInserir =
+            @"INSERT INTO [TBQUESTAO]
+            (
+                MT.[NOME]
+                D.[DISCIPLINA_NUMERO]
+                MT.[SERIE]
+            )    
+             VALUES
+            (
+                @NOME
+                @DISCIPLINA_Numero
+                @SERIE
+            );SELECT SCOPE_IDENTITY(); SELECT SCOPE_IDENTITY";
 
         public ValidationResult Editar(Questao registro)
         {
