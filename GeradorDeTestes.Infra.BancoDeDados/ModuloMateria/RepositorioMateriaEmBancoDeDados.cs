@@ -88,7 +88,6 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             return new ValidationResult();
         }
 
-
         public ValidationResult Editar(Materia materia)
         {
             var validador = new ValidadorDisciplina();
@@ -111,9 +110,25 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
             return resultadoValidacao;
         }
 
-        public ValidationResult Excluir(Materia registro)
+        public ValidationResult Excluir(Materia materia)
         {
-            
+            SqlConnection conexaoComBanco = new SqlConnection(enderecoBanco);
+
+            SqlCommand comandoExclusao = new SqlCommand(sqlExcluir, conexaoComBanco);
+
+            comandoExclusao.Parameters.AddWithValue("NUMERO", materia.Numero);
+
+            conexaoComBanco.Open();
+            int numeroRegistrosExcluidos = comandoExclusao.ExecuteNonQuery();
+
+            var resultadoValidacao = new ValidationResult();
+
+            if (numeroRegistrosExcluidos == 0)
+                resultadoValidacao.Errors.Add(new ValidationFailure("", "Não foi possível remover o registro"));
+
+            conexaoComBanco.Close();
+
+            return resultadoValidacao;
         }
 
         public Materia SelecionarPorNumero(int numero)
