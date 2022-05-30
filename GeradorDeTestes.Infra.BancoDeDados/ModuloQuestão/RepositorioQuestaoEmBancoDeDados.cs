@@ -15,16 +15,19 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             "Integrated Security=True;Pooling=False";
 
         private const string sqlSelecionarTodos = @"SELECT
-                MT.NUMERO,
-                MT.NOME,
-                MT.SERIE,
-                MT.DISCIPLINA_NUMERO,
-                D.NUMERO AS DISCIPLINA_NUMERO,
-                D.NOME AS DISCIPLINA_NOME
+                TQ.NUMERO,
+                TQ.ENUNCIADO,
+                TQ.MATERIA_MATERIA,
+                TQ.DISCIPLINA_DISCIPLINA
+                TQ.ALTERNATIVAS
+                MT.NUMERO AS MATERIA_MATERIA,
+                
                 FROM
-                TbMateria AS MT INNER JOIN 
-                TbDisciplina AS D ON
-                MT.Disciplina_Numero = D.Numero";
+                TbQuestao AS TQ INNER JOIN 
+                TbMateria AS TM ON
+                TQ.MATERIA_MATERIA = MT.Numero";
+
+
 
         public ValidationResult Editar(Questao registro)
         {
