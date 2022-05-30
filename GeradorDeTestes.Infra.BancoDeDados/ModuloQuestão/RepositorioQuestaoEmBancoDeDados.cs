@@ -18,9 +18,9 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
                 TQ.NUMERO,
                 TQ.ENUNCIADO,
                 TQ.MATERIA_MATERIA,
-                TQ.DISCIPLINA_DISCIPLINA
-                TQ.ALTERNATIVAS
-                MT.NUMERO AS MATERIA_MATERIA,
+                TQ.DISCIPLINA_DISCIPLINA,
+                TQ.ALTERNATIVAS,
+                MT.NUMERO AS MATERIA_MATERIA
                 
                 FROM
                 TbQuestao AS TQ INNER JOIN 
