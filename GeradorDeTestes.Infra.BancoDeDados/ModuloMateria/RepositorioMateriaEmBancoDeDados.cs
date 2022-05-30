@@ -90,7 +90,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
 
         public ValidationResult Editar(Materia materia)
         {
-            var validador = new ValidadorDisciplina();
+            var validador = new ValidadorMateria();
 
             var resultadoValidacao = validador.Validate(materia);
 

@@ -53,28 +53,10 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             throw new NotImplementedException();
         }
 
-        public ValidationResult Inserir(Questao questao)
+        public ValidationResult Inserir(Questao novoRegistro)
         {
-            var validador = new ValidadorDisciplina();
-            var resultadoValidacao = validador.Validate(novaDisciplina);
-            if (resultadoValidacao.IsValid == false)
-            {
-                return resultadoValidacao;
-            }
-            else
-            {
-                SqlConnection conexao = new SqlConnection(enderecoBanco);
-                SqlCommand cmdInserir = new SqlCommand(sqlInserir, conexao);
-
-                ConfigurarParametrosDisciplina(novaDisciplina, cmdInserir);
-                conexao.Open();
-
-                var numero = cmdInserir.ExecuteScalar();
-
-                novaDisciplina.Numero = Convert.ToInt32(numero);
-                conexao.Close();
-                return resultadoValidacao;
-            }
+            throw new NotImplementedException();
+        }
 
         public Questao SelecionarPorNumero(int numero)
         {
