@@ -30,15 +30,17 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
         private const string sqlInserir =
             @"INSERT INTO [TBQUESTAO]
             (
-                MT.[NOME]
-                D.[DISCIPLINA_NUMERO]
-                MT.[SERIE]
+                [ENUNCIADO]
+                [MATERIA_MATERIA]
+                [DISCIPLINA_DISCIPLINA]
+                [ALTERNATIVAS]
             )    
              VALUES
             (
-                @NOME
-                @DISCIPLINA_Numero
-                @SERIE
+               [ENUNCIADO]
+               [MATERIA_MATERIA]
+               [DISCIPLINA_DISCIPLINA]
+               [ALTERNATIVAS]
             );SELECT SCOPE_IDENTITY(); SELECT SCOPE_IDENTITY";
 
         public ValidationResult Editar(Questao registro)

@@ -31,22 +31,22 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloMateria
         private const string sqlInserir =
             @"INSERT INTO [TBMATERIA]
             (
-                [NOME]
-                [DISCIPLINA_NUMERO]
+                [NOME],
+                [DISCIPLINA_NUMERO],
                 [SERIE]
             )    
              VALUES
             (
-                @NOME
-                @DISCIPLINA_Numero
+                @NOME,
+                @DISCIPLINA_Numero,
                 @SERIE
             );SELECT SCOPE_IDENTITY(); SELECT SCOPE_IDENTITY";
 
         private const string sqlEditar =
             @"UPDATE [TBMATERIA]	
 		        SET
-			        [NOME] = @NOME
-                    [DISCIPLINA_NUMERO] = @DISCIPLINA
+			        [NOME] = @NOME,
+                    [DISCIPLINA_NUMERO] = @DISCIPLINA,
                     [SERIE] = @SERIE
 		        WHERE
 			        [NUMERO] = @NUMERO";
