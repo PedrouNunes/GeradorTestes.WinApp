@@ -50,11 +50,10 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             )    
              VALUES
             (
-               @ENUNCIADO,
-               @MATERIA_MATERIA,
+               @DESCRICAO,
+               @RESPOSTA,
                @QUESTAO_NUMERO
             );SELECT SCOPE_IDENTITY();";
-
 
 
         private const string sqlEditarQuestao = @"UPDATE [TBQUESTAO]	
@@ -65,10 +64,24 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
 		        WHERE
 			        [NUMERO] = @NUMERO";
 
+        private const string sqlEditarAlternativa =
+            @"UPDATE TBALTERNATIVA
+                SET
+                    [DESCRICAO] = @DESCRICAO,
+                    [RESPOSTA] = @RESPOSTA,
+                    [QUESTAO_NUMERO] = @QUESTAO_NUMERO
+                WHERE
+                    [NUMERO] = @NUMERO";
+
         private const string sqlExcluirQuestao =
            @"DELETE FROM [TBQUESTAO]
                 WHERE
                     [NUMERO] = @NUMERO";
+
+        private const string sqlExcluirAlternativa =
+            @"DELETE FROM TBALTERNATIVA
+                WHERE
+                    [QUESTAO_NUMERO] = @NUMERO";
         #endregion
 
         public ValidationResult Editar(Questao registro)
