@@ -26,7 +26,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
         //        TbMateria AS TM ON
         //        TQ.MATERIA_MATERIA = MT.Numero";
 
-        private const string sqlInserir =
+        private const string sqlInserirQuestao =
             @"INSERT INTO [TBQUESTAO]
             (
                 [ENUNCIADO],
@@ -40,7 +40,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
                @DISCIPLINA_DISCIPLINA,
             );SELECT SCOPE_IDENTITY();";
 
-        private const string sqlEditar = @"UPDATE [TBQUESTAO]	
+        private const string sqlEditarQuestao = @"UPDATE [TBQUESTAO]	
 		        SET
 			        [ENUNCIADO] = @ENUNCIADO,
                     [MATERIA_MATERIA] = @MATERIA_MATERIA,
