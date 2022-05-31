@@ -40,7 +40,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
                @DISCIPLINA_DISCIPLINA,
             );SELECT SCOPE_IDENTITY();";
 
-        private const string sqlEditar = @"UPDATE [TBMATERIA]	
+        private const string sqlEditar = @"UPDATE [TBQUESTAO]	
 		        SET
 			        [ENUNCIADO] = @ENUNCIADO,
                     [MATERIA_MATERIA] = @MATERIA_MATERIA,
@@ -48,7 +48,11 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
 		        WHERE
 			        [NUMERO] = @NUMERO";
 
-        
+        private const string sqlExcluirQuestao =
+           @"DELETE FROM [TBQUESTAO]
+                WHERE
+                    [NUMERO] = @NUMERO";
+
 
         public ValidationResult Editar(Questao registro)
         {
