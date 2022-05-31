@@ -2,6 +2,7 @@
 using GeradorTestes.Dominio.ModuloQuestao;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,17 +15,6 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             "Initial Catalog=GeradorDeTestesDB;" +
             "Integrated Security=True;Pooling=False";
 
-        //private const string sqlSelecionarTodos = @"SELECT
-        //        TQ.ENUNCIADO,
-        //        TQ.MATERIA_MATERIA,
-        //        TQ.DISCIPLINA_DISCIPLINA,
-        //        TQ.ALTERNATIVAS,
-        //        MT.NUMERO AS MATERIA_MATERIA
-
-        //        FROM
-        //        TbQuestao AS TQ INNER JOIN 
-        //        TbMateria AS TM ON
-        //        TQ.MATERIA_MATERIA = MT.Numero";
 
         #region Queries
         private const string sqlInserirQuestao =
@@ -82,7 +72,62 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             @"DELETE FROM TBALTERNATIVA
                 WHERE
                     [QUESTAO_NUMERO] = @NUMERO";
+
+
         #endregion
+
+        public ValidationResult Inserir(Questao questao)
+        {
+            var validador = new ValidadorQuestao();
+
+            var resultado = validador.Validate(questao);
+
+            if (!resultado.IsValid)
+                return resultado;
+
+            SqlConnection conexaoComBanco = new(enderecoBanco);
+
+            SqlCommand comandoInsercaoQuestao = new(sqlInserirQuestao, conexaoComBanco);
+
+            ConfigurarParametrosQuestao(questao, comandoInsercaoQuestao);
+
+            conexaoComBanco.Open();
+
+            var idQuestao = comandoInsercaoQuestao.ExecuteScalar();
+            questao.Numero = Convert.ToInt32(idQuestao);
+
+            SqlCommand comandoInsercaoAlternativa = new(sqlInserirAlternativa, conexaoComBanco);
+
+            int i = 0;
+            foreach (var alternativa in questao.Alternativas)
+            {
+                comandoInsercaoAlternativa.Parameters.Clear();
+                ConfirugarParametrosAlternativas(alternativa, questao, comandoInsercaoAlternativa);
+                var idAlternativa = comandoInsercaoAlternativa.ExecuteScalar();
+                //questao.Alternativas[i].Numero = Convert.ToInt32(idAlternativa);
+
+                i++;
+            }
+            conexaoComBanco.Close();
+
+            return resultado;
+        }
+
+        private void ConfirugarParametrosAlternativas(Alternativa alternativa, Questao questao, SqlCommand comandoInsercaoAlternativa)
+        {
+            //comandoInsercaoAlternativa.Parameters.AddWithValue("NUMERO", alternativa.Numero);
+            comandoInsercaoAlternativa.Parameters.AddWithValue("DESCRICAO", alternativa.Descricao);
+            comandoInsercaoAlternativa.Parameters.AddWithValue("CORRETA", alternativa.estaCorreta);
+            comandoInsercaoAlternativa.Parameters.AddWithValue("QUESTAO_NUMERO", questao.Numero);
+        }
+
+        private void ConfigurarParametrosQuestao(Questao questao, SqlCommand comandoInsercaoQuestao)
+        {
+            comandoInsercaoQuestao.Parameters.AddWithValue("NUMERO", questao.Numero);
+            comandoInsercaoQuestao.Parameters.AddWithValue("ENUNCIADO", questao.Enunciado);
+            comandoInsercaoQuestao.Parameters.AddWithValue("MATERIA_MATERIA", questao.Materia.Numero);
+            comandoInsercaoQuestao.Parameters.AddWithValue("DISCIPLINA_DISCIPLINA", questao.Disciplina.Numero);
+        }
 
         public ValidationResult Editar(Questao registro)
         {
@@ -94,10 +139,6 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             throw new NotImplementedException();
         }
 
-        public ValidationResult Inserir(Questao novoRegistro)
-        {
-            throw new NotImplementedException();
-        }
 
         public Questao SelecionarPorNumero(int numero)
         {
