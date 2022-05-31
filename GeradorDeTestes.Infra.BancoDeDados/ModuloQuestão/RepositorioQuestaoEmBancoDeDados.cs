@@ -20,25 +20,42 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
         //        TQ.DISCIPLINA_DISCIPLINA,
         //        TQ.ALTERNATIVAS,
         //        MT.NUMERO AS MATERIA_MATERIA
-                
+
         //        FROM
         //        TbQuestao AS TQ INNER JOIN 
         //        TbMateria AS TM ON
         //        TQ.MATERIA_MATERIA = MT.Numero";
 
+        #region Queries
         private const string sqlInserirQuestao =
             @"INSERT INTO [TBQUESTAO]
             (
                 [ENUNCIADO],
                 [MATERIA_MATERIA],
-                [DISCIPLINA_DISCIPLINA],
+                [DISCIPLINA_DISCIPLINA]
             )    
              VALUES
             (
                @ENUNCIADO,
                @MATERIA_MATERIA,
-               @DISCIPLINA_DISCIPLINA,
+               @DISCIPLINA_DISCIPLINA
             );SELECT SCOPE_IDENTITY();";
+
+        private const string sqlInserirAlternativa =
+            @"INSERT INTO [TBALTERNATIVA]
+            (
+                [DESCRICAO],
+                [RESPOSTA],
+                [QUESTAO_NUMERO]
+            )    
+             VALUES
+            (
+               @ENUNCIADO,
+               @MATERIA_MATERIA,
+               @QUESTAO_NUMERO
+            );SELECT SCOPE_IDENTITY();";
+
+
 
         private const string sqlEditarQuestao = @"UPDATE [TBQUESTAO]	
 		        SET
@@ -52,7 +69,7 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
            @"DELETE FROM [TBQUESTAO]
                 WHERE
                     [NUMERO] = @NUMERO";
-
+        #endregion
 
         public ValidationResult Editar(Questao registro)
         {
