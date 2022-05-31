@@ -14,18 +14,17 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
             "Initial Catalog=GeradorDeTestesDB;" +
             "Integrated Security=True;Pooling=False";
 
-        private const string sqlSelecionarTodos = @"SELECT
-                TQ.NUMERO,
-                TQ.ENUNCIADO,
-                TQ.MATERIA_MATERIA,
-                TQ.DISCIPLINA_DISCIPLINA,
-                TQ.ALTERNATIVAS,
-                MT.NUMERO AS MATERIA_MATERIA
+        //private const string sqlSelecionarTodos = @"SELECT
+        //        TQ.ENUNCIADO,
+        //        TQ.MATERIA_MATERIA,
+        //        TQ.DISCIPLINA_DISCIPLINA,
+        //        TQ.ALTERNATIVAS,
+        //        MT.NUMERO AS MATERIA_MATERIA
                 
-                FROM
-                TbQuestao AS TQ INNER JOIN 
-                TbMateria AS TM ON
-                TQ.MATERIA_MATERIA = MT.Numero";
+        //        FROM
+        //        TbQuestao AS TQ INNER JOIN 
+        //        TbMateria AS TM ON
+        //        TQ.MATERIA_MATERIA = MT.Numero";
 
         private const string sqlInserir =
             @"INSERT INTO [TBQUESTAO]
@@ -33,15 +32,13 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
                 [ENUNCIADO],
                 [MATERIA_MATERIA],
                 [DISCIPLINA_DISCIPLINA],
-                [ALTERNATIVAS]
             )    
              VALUES
             (
                @ENUNCIADO,
                @MATERIA_MATERIA,
                @DISCIPLINA_DISCIPLINA,
-               @ALTERNATIVAS
-            );SELECT SCOPE_IDENTITY(); SELECT SCOPE_IDENTITY";
+            );SELECT SCOPE_IDENTITY();";
 
         public ValidationResult Editar(Questao registro)
         {
