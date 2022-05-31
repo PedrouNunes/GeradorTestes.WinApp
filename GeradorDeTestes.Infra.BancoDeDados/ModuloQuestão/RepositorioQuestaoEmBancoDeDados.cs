@@ -40,6 +40,16 @@ namespace GeradorDeTestes.Infra.BancoDeDados.ModuloQuestão
                @DISCIPLINA_DISCIPLINA,
             );SELECT SCOPE_IDENTITY();";
 
+        private const string sqlEditar = @"UPDATE [TBMATERIA]	
+		        SET
+			        [ENUNCIADO] = @ENUNCIADO,
+                    [MATERIA_MATERIA] = @MATERIA_MATERIA,
+                    [DISCIPLINA_DISCIPLINA] = @DISCIPLINA_DISCIPLINA
+		        WHERE
+			        [NUMERO] = @NUMERO";
+
+        
+
         public ValidationResult Editar(Questao registro)
         {
             throw new NotImplementedException();
